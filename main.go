@@ -38,6 +38,10 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func main() {
+<<<<<<< HEAD
+
+
+=======
 	game := &Game{}
 
 	var err error
@@ -47,11 +51,16 @@ func main() {
 	}
 
 	// Specify the window size as you like. Here, a doubled size is specified.
+>>>>>>> abb89f3a8c9620df050731e75bebb4a60950edf7
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("meidän peli")
 	// Call ebiten.RunGame to start your game loop.
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}
+<<<<<<< HEAD
+}
+=======
 
 }
+>>>>>>> abb89f3a8c9620df050731e75bebb4a60950edf7

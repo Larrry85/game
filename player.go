@@ -51,6 +51,11 @@ func NewFood() *Food {
 	}
 }
 
+func (s *Snake) Move() {
+	s.Head.X += s.Direction.X
+	s.Head.Y += s.Direction.Y
+}
+
 func (g *Game) Update() error {
 	if g.gameOver {
 		if inpututil.IsKeyJustPressed(ebiten.KeyR) {

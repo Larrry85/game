@@ -1,26 +1,66 @@
 package main
 
 import (
+	"log"
+
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 )
 
 const (
-	screenWidth  = 320
-	screenHeight = 240
-	tileSize     = 5
+	screenHeight = 1080
+	screenWidth  = 1920
 )
 
-func main() {
+var (
+	bgImage *ebiten.Image
+)
 
+type Game struct{}
 
-	ebiten.SetWindowSize(screenWidth, screenHeight)
-	ebiten.SetWindowTitle("Ebiten Web Browser Game")
-
-	game := &Game{
-		snake: NewSnake(),
-		food:  NewFood(),
-	}
-	if err := ebiten.RunGame(game); err != nil {
-		panic(err)
-	}
+// Update proceeds the game state.
+// Update is called every tick (1/60 [s] by default).
+func (g *Game) Update() error {
+	// Write your game's logical update.
+	return nil
 }
+
+// Draw draws the game screen.
+// Draw is called every frame (typically 1/60[s] for 60Hz display).
+func (g *Game) Draw(screen *ebiten.Image) {
+	screen.DrawImage(bgImage, nil)
+}
+
+// Layout takes the outside size (e.g., the window size) and returns the (logical) screen size.
+// If you don't have to adjust the screen size with the outside size, just return a fixed size.
+func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
+	return screenWidth, screenHeight
+}
+
+func main() {
+<<<<<<< HEAD
+
+
+=======
+	game := &Game{}
+
+	var err error
+	bgImage, _, err = ebitenutil.NewImageFromFile("background.png")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Specify the window size as you like. Here, a doubled size is specified.
+>>>>>>> abb89f3a8c9620df050731e75bebb4a60950edf7
+	ebiten.SetWindowSize(screenWidth, screenHeight)
+	ebiten.SetWindowTitle("meidän peli")
+	// Call ebiten.RunGame to start your game loop.
+	if err := ebiten.RunGame(game); err != nil {
+		log.Fatal(err)
+	}
+<<<<<<< HEAD
+}
+=======
+
+}
+>>>>>>> abb89f3a8c9620df050731e75bebb4a60950edf7

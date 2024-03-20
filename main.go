@@ -11,6 +11,8 @@ const (
 )
 
 func main() {
+
+
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("Ebiten Web Browser Game")
 
@@ -21,9 +23,4 @@ func main() {
 	if err := ebiten.RunGame(game); err != nil {
 		panic(err)
 	}
-}
-
-func (s *Snake) Move() {
-	s.Head.X += s.Direction.X
-	s.Head.Y += s.Direction.Y
 }

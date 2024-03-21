@@ -14,6 +14,7 @@ const (
 
 var (
 	bgImage *ebiten.Image
+	talo    *ebiten.Image
 )
 
 type Game struct{}
@@ -29,6 +30,12 @@ func (g *Game) Update() error {
 // Draw is called every frame (typically 1/60[s] for 60Hz display).
 func (g *Game) Draw(screen *ebiten.Image) {
 	screen.DrawImage(bgImage, nil)
+
+	// Draw building at position (100, 100)
+	opts := &ebiten.DrawImageOptions{}
+	opts.GeoM.Translate(5000, 5000)
+	opts.GeoM.Scale(0.1, 0.1)
+	screen.DrawImage(talo, opts)
 }
 
 // Layout takes the outside size (e.g., the window size) and returns the (logical) screen size.
@@ -46,6 +53,11 @@ func main() {
 		log.Fatal(err)
 	}
 
+	talo, _, err = ebitenutil.NewImageFromFile("talo.png")
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	// Specify the window size as you like. Here, a doubled size is specified.
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("meidän peli")
@@ -53,5 +65,4 @@ func main() {
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}
-
 }

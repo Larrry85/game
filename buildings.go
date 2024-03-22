@@ -29,12 +29,12 @@ type Vector struct {
 
 var buildings []*Building
 
-func createBuildings() {
+func CreateBuildings() {
 	buildings = append(buildings, &Building{Position: Vector{X: 100, Y: 100}, MaxHealth: 100, Health: 100, Type: House})
 	buildings = append(buildings, &Building{Position: Vector{X: 200, Y: 200}, MaxHealth: 150, Health: 150, Production: "Unit", Type: Factory})
 }
 
-func updateBuildings() {
+func UpdateBuildings() {
 	for _, b := range buildings {
 		if b.Production != "" {
 			b.Construction += rand.Intn(5)

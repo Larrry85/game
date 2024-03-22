@@ -4,8 +4,9 @@ import (
 	//"image/color" // only if there is background color
 	"log"
 	"math"
-	"math/rand"
-	"time"
+
+	//"math/rand"
+	//"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
@@ -14,23 +15,20 @@ import (
 // /////////
 // Variables
 // /////////
-type BuildingType int
 
-const ( // Houses
-	House   BuildingType = iota
-	Factory BuildingType = iota
-)
 const (
-	screenHeight = 1080
-	screenWidth  = 1920
+	screenHeight = 500
+	screenWidth  = 500
 	tileSize     = 32
 )
 const playerSpeed = 2 // Player's speed
 
+var game *Game
+
 var ( // for background and buildings
-	grassTile   *ebiten.Image // background image type
+	grassTile   *ebiten.Image                  // background image type
 	buildingImg map[BuildingType]*ebiten.Image // Map to store building images
-	selected    *Building
+	//selected    *Building
 )
 var ( // for Player
 	playerImage *ebiten.Image // player image type
@@ -42,21 +40,6 @@ var ( // for Player
 //////////
 // Structs
 //////////
-
-// Building, types
-type Building struct {
-	Position     Vector
-	Health       int
-	MaxHealth    int
-	Production   string
-	Construction int
-	Type         BuildingType
-}
-
-// coordinates on the 2D field
-type Vector struct {
-	X, Y float64
-}
 
 type Player struct {
 	Image     *ebiten.Image // players type
@@ -77,7 +60,7 @@ type Game struct {
 func (g *Game) Update() error { // game keeps updating
 	handleInput(g) // calls handleInput() to move the player
 	// Update building logic
-	updateBuildings()
+	UpdateBuildings()
 	return nil
 } //Update() END
 
@@ -178,6 +161,14 @@ func handleInput(g *Game) { // uses Game struct
 } // handleInput() END
 
 func main() {
+
+	// Initialize the game
+	game = &Game{
+		player: &Player{},
+		//grassTile: nil, // Initialize as needed
+		//selected:  nil, // Initialize as needed
+	}
+
 	player, _, err := ebitenutil.NewImageFromFile("player1.png")
 	if err != nil {
 		log.Fatal(err)
@@ -203,7 +194,7 @@ func main() {
 	}
 	buildingImg[Factory] = factory
 
-	createBuildings()
+	CreateBuildings()
 
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("Demo Game")

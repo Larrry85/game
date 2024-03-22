@@ -3,8 +3,6 @@ package main
 import (
 	"image/color"
 	"log"
-	"math/rand"
-	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
@@ -16,35 +14,9 @@ const (
 	tileSize     = 32
 )
 
-// BuildingType represents different types of buildings
-type BuildingType int
-
-const (
-	// House represents a house building
-	House BuildingType = iota
-	// Factory represents a factory building
-	Factory
-)
-
-// Building represents a building in the game world
-type Building struct {
-	Position     Vector
-	Health       int
-	MaxHealth    int
-	Production   string
-	Construction int
-	Type         BuildingType // Type of building
-}
-
-// Vector represents a 2D vector
-type Vector struct {
-	X, Y float64
-}
-
 var (
 	grassTile   *ebiten.Image
 	buildingImg map[BuildingType]*ebiten.Image // Map to store building images
-	buildings   []*Building
 	selected    *Building
 )
 
@@ -55,15 +27,7 @@ func (g *Game) Update() error {
 	handleInput()
 
 	// Update building logic
-	for _, b := range buildings {
-		if b.Production != "" {
-			b.Construction += rand.Intn(5)
-			if b.Construction >= 100 {
-				b.Construction = 100
-				b.Production = ""
-			}
-		}
-	}
+	updateBuildings()
 
 	return nil
 }
@@ -137,11 +101,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	rand.Seed(time.Now().UnixNano())
-
-	// Create some buildings for demonstration
-	buildings = append(buildings, &Building{Position: Vector{X: 100, Y: 100}, MaxHealth: 100, Health: 100, Type: House})
-	buildings = append(buildings, &Building{Position: Vector{X: 200, Y: 200}, MaxHealth: 150, Health: 150, Production: "Unit", Type: Factory})
+	createBuildings()
 
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("Demo Game")

@@ -29,8 +29,8 @@ const playerSpeed = 2 // Player's speed
 
 var ( // for background and buildings
 	grassTile   *ebiten.Image // background image type
-	buildingImg map[BuildingType]*ebiten.Image
-	buildings   []*Building
+	buildingImg map[BuildingType]*ebiten.Image // Map to store building images
+	selected    *Building
 )
 var ( // for Player
 	playerImage *ebiten.Image // player image type
@@ -77,15 +77,7 @@ type Game struct {
 func (g *Game) Update() error { // game keeps updating
 	handleInput(g) // calls handleInput() to move the player
 	// Update building logic
-	for _, b := range buildings { // Dahl
-		if b.Production != "" {
-			b.Construction += rand.Intn(5)
-			if b.Construction >= 100 {
-				b.Construction = 100
-				b.Production = ""
-			} // Dahl END
-		}
-	}
+	updateBuildings()
 	return nil
 } //Update() END
 
@@ -211,15 +203,7 @@ func main() {
 	}
 	buildingImg[Factory] = factory
 
-	rand.Seed(time.Now().UnixNano())
-
-	buildings = append(buildings, &Building{Position: Vector{X: 100, Y: 100}, MaxHealth: 100, Health: 100, Type: House})
-	buildings = append(buildings, &Building{Position: Vector{X: 200, Y: 200}, MaxHealth: 150, Health: 150, Type: Factory})
-
-	game := &Game{
-		player:    &Player{Image: playerImage},
-		grassTile: grassTile,
-	}
+	createBuildings()
 
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("Demo Game")
